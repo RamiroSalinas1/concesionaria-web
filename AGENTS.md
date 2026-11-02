@@ -29,3 +29,21 @@
 - Respetar accesibilidad, diseño móvil y prefers-reduced-motion, también al personalizar colores.
 - Preservar cambios del usuario. Revisar estado y diff antes de editar; no hacer reset, limpieza ni sobrescrituras indiscriminadas.
 - Al cerrar cada etapa informar archivos, validaciones y pendientes; detenerse en el alcance autorizado.
+
+## Etapa 2: demostración local
+
+- La base visual funciona sin Supabase ni credenciales. Los documentos de arquitectura/datos son propuestas futuras, no funcionalidades implementadas.
+- Los datos ficticios autorizados se limitan a src/dev y rutas /desarrollo, rotulados como muestra. Nunca importarlos al catálogo público.
+- Mantener guardias de servidor e imports condicionados a NODE_ENV === development. Comprobar el aislamiento con build y scripts/verify-production.mjs.
+- El panel visual no tiene autenticación ni persistencia. No simular guardados o publicaciones; no exponer next dev a una red.
+- Mantener tipados y centralizados los valores iniciales de src/config/site.ts. Las capturas y docs/ESTADO.md deben reflejar el estado real.
+- La siguiente etapa requiere una nueva instrucción del usuario; no conectar servicios por el solo hecho de estar documentados.
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

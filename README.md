@@ -2,34 +2,89 @@
 
 App web para una concesionaria de Argentina. Nombre provisional y editable.
 
-**Estado: etapa 0, revisión y preparación documental.** No hay aplicación, dependencias instaladas, base de datos propia ni despliegue. Las decisiones técnicas que siguen son propuestas para implementar por etapas.
+**Etapa 2 terminada: base técnica y diseño visual navegable.** Funciona localmente sin credenciales, conexión a Supabase, autenticación ni persistencia. Catálogo público vacío; demostraciones exclusivas de desarrollo. Sin despliegue.
+
+## Abrir la vista local
+
+Requisitos: Node.js **24.x** y pnpm **11.25.0**. Desde el clon:
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Abrir [http://127.0.0.1:3000](http://127.0.0.1:3000). Ctrl+C detiene el servidor. Solo escucha en loopback.
+
+En este equipo las dependencias ya están instaladas. Si pnpm no está en PATH, iniciar directamente:
+
+```powershell
+node node_modules/next/dist/bin/next dev --hostname 127.0.0.1
+```
+
+También se incluye scripts/dev.ps1, con puerto opcional: .\scripts\dev.ps1 -Port 3001. La alternativa con Node no requiere cambiar políticas del sistema.
+
+Para reinstalar con el gestor incluido en el runtime de este equipo:
+
+```powershell
+node "$env:USERPROFILE\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\pnpm\bin\pnpm.cjs" install --frozen-lockfile
+```
+
+No se necesitan variables de entorno, cuentas de visitante ni recursos remotos. Las fuentes se sirven desde la app; no hay imágenes remotas. Los servidores de verificación se detienen al cerrar la entrega: iniciar una sesión propia con los comandos anteriores.
+
+## Pantallas
+
+| Ruta                               | Disponible                                                                            |
+| ---------------------------------- | ------------------------------------------------------------------------------------- |
+| /                                  | Portada gráfica original, categorías, destacados vacíos y pie sin contactos ficticios |
+| /catalogo                          | Filtros con URL, validación de rangos, moneda explícita, limpieza y estado vacío      |
+| /vehiculos/cualquier-slug          | «Vehículo no encontrado», respuesta 404                                               |
+| /desarrollo/ficha                  | Ficha ficticia rotulada, galería con ampliación y opciones de pago de ejemplo         |
+| /desarrollo/ficha?precio=consultar | Variante de precio a consultar                                                        |
+| /desarrollo/ficha?galeria=vacia    | Variante sin imágenes                                                                 |
+| /desarrollo/panel/vehiculos        | Panel visual, con Apariencia, Contenido, Contacto e Historial                         |
+
+Las rutas /desarrollo/* devuelven **404 en producción**. Hay guardias en servidor e imports condicionados a desarrollo; no dependen de CSS o de botones ocultos. /admin no tiene un panel operativo.
+
+Apariencia cambia solo una muestra en memoria: recargar restablece el valor inicial. No hay guardados simulados, publicación, subidas ni eventos ficticios. Marca permanece deshabilitada hasta tener vehículos publicados.
+
+## Comprobaciones
+
+```powershell
+pnpm run typecheck
+pnpm run lint
+pnpm run format:check
+pnpm run build
+pnpm run verify:production
+```
+
+La última comprobación requiere un build previo. Inicia un servidor temporal en 127.0.0.1:3100, verifica rutas públicas, 404 de demos y ausencia de fixture/panel en JavaScript público; lo detiene al terminar.
 
 ## Documentación
 
-| Documento | Contenido |
-| --- | --- |
-| [Revisión inicial](docs/00-revision-inicial.md) | Estado Git, accesos comprobados, recursos visibles, costos y límites de la revisión |
-| [Alcance](docs/01-alcance.md) | Producto, diseño, exclusiones y datos reales pendientes |
-| [Arquitectura](docs/02-arquitectura.md) | Separación público/privado, publicación y organización futura del código |
-| [Modelo de datos](docs/03-modelo-de-datos.md) | Entidades, restricciones, relaciones e índices propuestos |
-| [Seguridad](docs/04-seguridad.md) | Administrador único, Auth, permisos, RLS e imágenes |
-| [Flujo editorial](docs/05-flujo-editorial.md) | Borradores, vista previa, historial, restauración, papelera y retención |
-| [Etapas y aceptación](docs/06-etapas-y-aceptacion.md) | Entregas, verificaciones y decisiones necesarias por momento |
-| [Versiones y fuentes](docs/07-versiones-y-fuentes.md) | Consultas oficiales del 2 de noviembre de 2026 y proceso de instalación futura |
+| Documento                                                 | Contenido                                         |
+| --------------------------------------------------------- | ------------------------------------------------- |
+| [Estado actual](docs/ESTADO.md)                           | Pruebas, límites, pendientes y siguiente paso     |
+| [Base técnica y diseño](docs/08-base-tecnica-y-diseno.md) | Versiones, estructura, decisiones y recursos      |
+| [Capturas](docs/capturas/README.md)                       | Pantallas de escritorio y móvil                   |
+| [Revisión inicial](docs/00-revision-inicial.md)           | Foto histórica de accesos y costos                |
+| [Alcance](docs/01-alcance.md)                             | Producto y exclusiones                            |
+| [Arquitectura](docs/02-arquitectura.md)                   | Propuesta de separación público/privado           |
+| [Modelo de datos](docs/03-modelo-de-datos.md)             | Propuesta no implementada                         |
+| [Seguridad](docs/04-seguridad.md)                         | Propuesta Auth, permisos y RLS                    |
+| [Flujo editorial](docs/05-flujo-editorial.md)             | Propuesta de borradores, restauración y retención |
+| [Plan preliminar](docs/06-etapas-y-aceptacion.md)         | Ver numeración actual en ESTADO.md                |
+| [Fuentes iniciales](docs/07-versiones-y-fuentes.md)       | Antecedente; no sustituye el lockfile actual      |
 
-## Trabajo local
+Nombre, paleta base, fuentes disponibles, textos y secciones se centralizan con tipos en src/config/site.ts.
 
-El clon está en la subcarpeta `concesionaria-web` del espacio de trabajo. Ejecutar los comandos Git desde ella. La rama de esta preparación es `docs/etapa-0-revision-inicial`, basada en `main`.
+## Git y límites
 
-El archivo `MVP.md` que ya existía en la carpeta contenedora se conserva sin cambios y fuera del clon. Es un antecedente; el alcance acordado de esta revisión está en `docs/01-alcance.md`.
+Rama: docs/etapa-0-revision-inicial. [PR borrador #1](https://github.com/RamiroSalinas1/concesionaria-web/pull/1) hacia main, sin fusionar. La revisión inicial se guardó primero en e42db76; esta etapa se guarda en un commit separado.
 
-No hay todavía comando de instalación, servidor ni pruebas de aplicación que ejecutar. La siguiente etapa deberá verificar nuevamente compatibilidad, fijar versiones y guardar un único archivo de dependencias bloqueadas.
+MVP.md permanece sin modificaciones fuera del clon. Los documentos 00–07 son antecedentes; ESTADO.md informa qué está implementado hoy.
 
-## Límites del proyecto
-
-- Repositorio exclusivo: [RamiroSalinas1/concesionaria-web](https://github.com/RamiroSalinas1/concesionaria-web).
-- No utilizar ni modificar Documa, Supabase `documa-dev` o Vercel `plataforma-de-control-documental`.
-- No crear recursos con costo, contratar planes, registrar dominios ni publicar en producción sin la autorización correspondiente.
-- No guardar secretos ni datos privados en este repositorio público.
-- No inventar inventario, contactos, testimonios, estadísticas ni condiciones financieras.
-- Revisar normativa argentina con fuentes oficiales vigentes antes de publicar; no se afirma cumplimiento legal.
+- Proyecto independiente de Documa. No usar ni modificar su repositorio, Supabase documa-dev ni Vercel plataforma-de-control-documental.
+- No se crearon proyectos Supabase/Vercel, bases, buckets, dominios ni servicios contratados.
+- No desplegar ni contratar recursos con costo sin autorización explícita.
+- No subir secretos ni datos privados al repositorio público.
+- Antes de publicar: revisión normativa argentina, costos y plan apto comercial. No se afirma cumplimiento legal.

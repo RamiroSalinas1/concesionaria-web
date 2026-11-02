@@ -1,5 +1,7 @@
 # Etapas y criterios de aceptación
 
+> Estado actualizado: este es el plan preliminar de la revisión inicial. La etapa 2 autorizada después corresponde a base técnica y diseño local, sin datos ni seguridad remota. Ver [ESTADO.md](ESTADO.md) para el avance actual.
+
 Cada etapa futura necesita su propia instrucción de ejecución. La etapa 0 termina con documentación local y revisión, sin implementación ni recursos remotos.
 
 ## 0. Revisión y preparación — etapa actual
@@ -68,19 +70,19 @@ Aceptación: flujo real verificado de navegador a servidor/base/Storage y vuelta
 
 ## Datos pendientes y cuándo importan
 
-| Dato/decisión | Momento necesario | ¿Bloquea ahora? |
-| --- | --- | --- |
-| Correo del único administrador y recuperación | Bootstrap de Auth; probar entrega y acceso antes de operar | No |
-| Retención de papelera/versiones/fotos y huérfanos | Antes de habilitar purga o prometer un plazo de recuperación; evaluar capacidad antes de datos reales | No; purga desactivada |
-| Backups, responsable y destino | Antes de operar con contenido real y de producción | No |
-| Plan Vercel apto comercial y presupuesto | Antes de contratar/provisionar con costo o publicar el negocio | No |
-| Revalidación Supabase USD 0/cupo/región | Inmediatamente antes de crear proyecto propio | No |
-| Nombre definitivo, logo, colores y fuentes | Pueden completarse desde el panel; usar nombre provisional y diseño base | No |
-| WhatsApp, redes y correo comercial | Cuando se quieran habilitar; mientras tanto ocultos | No |
-| Vehículos, fotos, precios, monedas y condiciones reales | Antes de publicar cada ficha; catálogo puede permanecer vacío | No |
-| Límites de archivos (formatos, bytes, dimensiones y cantidad) | Antes de implementar/aceptar subidas | No; proponer según costo y experiencia |
-| Plazos/condiciones de financiación o permuta | Solo si el negocio decide mostrarlos; no calcular ni inventar | No |
-| Dirección, horarios y dominio | Opcionales; dominio solo con autorización de registro/costo | No |
-| Datos comerciales/tributarios y avisos aplicables | Revisión normativa y preparación de producción | No |
+| Dato/decisión                                                 | Momento necesario                                                                                     | ¿Bloquea ahora?                        |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| Correo del único administrador y recuperación                 | Bootstrap de Auth; probar entrega y acceso antes de operar                                            | No                                     |
+| Retención de papelera/versiones/fotos y huérfanos             | Antes de habilitar purga o prometer un plazo de recuperación; evaluar capacidad antes de datos reales | No; purga desactivada                  |
+| Backups, responsable y destino                                | Antes de operar con contenido real y de producción                                                    | No                                     |
+| Plan Vercel apto comercial y presupuesto                      | Antes de contratar/provisionar con costo o publicar el negocio                                        | No                                     |
+| Revalidación Supabase USD 0/cupo/región                       | Inmediatamente antes de crear proyecto propio                                                         | No                                     |
+| Nombre definitivo, logo, colores y fuentes                    | Pueden completarse desde el panel; usar nombre provisional y diseño base                              | No                                     |
+| WhatsApp, redes y correo comercial                            | Cuando se quieran habilitar; mientras tanto ocultos                                                   | No                                     |
+| Vehículos, fotos, precios, monedas y condiciones reales       | Antes de publicar cada ficha; catálogo puede permanecer vacío                                         | No                                     |
+| Límites de archivos (formatos, bytes, dimensiones y cantidad) | Antes de implementar/aceptar subidas                                                                  | No; proponer según costo y experiencia |
+| Plazos/condiciones de financiación o permuta                  | Solo si el negocio decide mostrarlos; no calcular ni inventar                                         | No                                     |
+| Dirección, horarios y dominio                                 | Opcionales; dominio solo con autorización de registro/costo                                           | No                                     |
+| Datos comerciales/tributarios y avisos aplicables             | Revisión normativa y preparación de producción                                                        | No                                     |
 
 No hace falta pedir todos los datos juntos para comenzar la siguiente etapa. El correo administrador es distinto del correo comercial público. La falta de marca definitiva o inventario real no impide avanzar con estructura y catálogo vacío.
