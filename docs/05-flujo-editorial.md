@@ -1,6 +1,6 @@
 # Borradores, publicación e historial
 
-Propuesta común a vehículos y configuración del sitio. El historial es persistente en Postgres; Git solo versiona código, documentación y migraciones.
+Propuesta común a vehículos y configuración del sitio. La etapa 3 implementó la base de tablas e inmutabilidad; [detalle actual](09-supabase-y-acceso.md). Las acciones editoriales siguientes aún no están habilitadas. El historial se conserva en Postgres; Git solo versiona código, documentación y migraciones.
 
 ## Estados y acciones
 

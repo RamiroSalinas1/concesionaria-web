@@ -1,6 +1,6 @@
 # Modelo inicial de datos
 
-Propuesta conceptual: **no es una migración y no se ejecutó SQL**. IDs UUID, fechas `timestamptz` en UTC y presentación `es-AR` / `America/Argentina/Buenos_Aires`. Importes `numeric(14,2)`, nunca coma flotante.
+Modelo conceptual de etapa 0. La base se implementó mediante migraciones en etapa 3; [detalle y diferencias actuales](09-supabase-y-acceso.md). Las migraciones son la fuente ejecutable; CRUD y publicación siguen pendientes. IDs UUID, fechas `timestamptz` en UTC y presentación `es-AR` / `America/Argentina/Buenos_Aires`. Importes `numeric(14,2)`, nunca coma flotante.
 
 ## Edición y versiones privadas
 

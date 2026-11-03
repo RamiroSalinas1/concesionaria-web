@@ -1,58 +1,60 @@
 # Estado del proyecto
 
-**Etapa terminada: 2 — base técnica y diseño visual navegable.**
-2 de noviembre de 2026. Listo para revisar diseño, sin base de datos ni despliegue.
+**Etapa 3 implementada: base Supabase y seguridad para un administrador.**
+3 de noviembre de 2026. Diseño aprobado conservado. Sin CRUD, editor, despliegue ni fusión.
 
-## Git
+## Recurso
 
-- Rama: docs/etapa-0-revision-inicial.
-- Revisión inicial: e42db76a0103686405ca43e68577a098d4759567, subida antes de comenzar el diseño.
-- [PR borrador #1](https://github.com/RamiroSalinas1/concesionaria-web/pull/1) hacia main, sin fusionar.
-- Base técnica, diseño, capturas y documentación en un commit separado. Consultar su SHA final en la entrega o con git log -2 --oneline.
+- Proyecto Supabase independiente: concesionaria-web, ref `lzfqosdaapotitvrvusd`, región `sa-east-1`.
+- Organización autorizada: `vercel_icfg_ws6A0OiG1NKsEfSwPVQYuDdq`, Free.
+- Costo consultado antes de crear: **USD 0 mensuales**. Sin contratación de planes, dominios, SMTP, Vercel ni recursos adicionales.
+- Documa y sus recursos no se modificaron.
 
-## Funciona
+## Implementado
 
-Inicio adaptable; catálogo vacío y filtros con URL, validación y limpieza; canales ausentes ocultos; ficha pública inexistente con 404; galería de muestra seleccionable/ampliable; variantes sin imágenes y con precio a consultar; cinco apartados del panel demo; muestra de Apariencia efímera. Nombre, paleta base, fuentes, textos y secciones centralizados con tipos.
-
-## Solo demostración
-
-/desarrollo/ficha y /desarrollo/panel/* solo con next dev. Datos ficticios rotulados, sin autenticación ni persistencia. Agregar/guardar/publicar deshabilitados. No se anuncian guardados falsos, no hay historial ficticio ni panel operativo en /admin.
+- Tres migraciones aplicadas y versionadas: `20261103041214_security_foundation`, `20261103041923_explicit_private_media_deny` y `20261103042639_harden_auth_helper_permissions`.
+- Administrador único autorizado por UUID privado y sesión vigente; cuenta definitiva creada por el usuario y bootstrap restringido ejecutado. No hay correo, UUID de cuenta ni credenciales en Git.
+- Auth público y anónimo desactivados, comprobados por HTTP. No hay registro, invitaciones ni gestión de usuarios en la app.
+- Inicio/cierre de sesión, páginas protegidas, API privada y cambio/recuperación de contraseña preparados con SSR. GetClaims para refresco, getUser y autorización en base para acceso.
+- RLS y privilegios mínimos: proyección física pública separada, borradores/configuración/historial privados. Sin DML editorial directo ni RPC de escritura todavía.
+- Revisiones e historial inmutables, FK de pertenencia, base de auditoría, referencias de medios conservadas y rutas inmutables.
+- Bucket privado sin permisos de subida/sobrescritura/borrado. Endpoint de medios solo por referencia pública; nunca firma rutas arbitrarias. Sin clave privilegiada configurada, falla con 404.
+- Variables locales ignoradas y `.env.example` sin secretos; tipos públicos generados y contrato tipado de lectura del catálogo.
+- Diseño público y catálogo vacío de etapa 2 conservados; `/api/catalog` lee solo la proyección pública. Demos siguen limitadas al desarrollo.
 
 ## Verificaciones
 
-| Comprobación                        | Resultado                                                                                                     |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| install --frozen-lockfile --offline | Correcta; lockfile coherente, sin resolver nuevas versiones                                                   |
-| typecheck                           | Correcto                                                                                                      |
-| lint                                | Correcto, cero advertencias de lint                                                                           |
-| format:check                        | Correcto                                                                                                      |
-| build                               | Producción compila sin credenciales                                                                           |
-| verify:production                   | Tres rutas públicas 200 y doce casos 404: demos, /admin, ficha ficticia y URL desconocida                     |
-| JavaScript público                  | Sin fixture ni módulo del panel demo                                                                          |
-| Navegador escritorio/móvil          | Inicio, catálogo, ficha y panel revisados; sin desbordes horizontales en casos inspeccionados                 |
-| Filtros                             | Combinación en URL; cambio de moneda limpia importes; año invertido muestra error; limpiar vuelve a /catalogo |
-| Panel                               | Cinco apartados recorridos; nombre de muestra vuelve al inicial al recargar                                   |
-| Teclado                             | Menú y enlaces con Enter; Escape cierra galería y devuelve el foco                                            |
-| Consola final                       | Sin errores ni advertencias en la pasada final de navegación                                                  |
-| Movimiento reducido                 | Regla CSS revisada; preferencia del sistema sin alterar                                                       |
-| Secretos                            | Sin coincidencias en búsqueda de patrones sobre archivos a versionar                                          |
-| MVP.md previo                       | Conservado, mismo SHA-256                                                                                     |
-| Auditoría                           | 0 altas, 0 críticas; 1 moderada de tooling, detallada en documento técnico                                    |
+| Comprobación                          | Resultado                                                                                                                                                                    |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| typecheck / lint / format:check       | Correctos                                                                                                                                                                    |
+| build                                 | Correcto; Windows requirió repetir con permisos adecuados                                                                                                                    |
+| verify:policies                       | 43 aserciones PostgreSQL en memoria: visitante, ajeno, admin, sesión vencida/revocada, no autoasignación, historial, medios, integridad y separación de borrador/publicación |
+| verify:hosted                         | Auth endurecido; registro directo devuelve signup_disabled; catálogo público legible; borradores, historial, autorización y resolver privado denegados                       |
+| verify:production                     | Públicas 200, demos/fichas/URL inexistente 404, rutas/API privadas protegidas, cookie falsa rechazada, no-store, callback fijo y JS sin fixtures                             |
+| Cuenta real                           | Existe una única identidad confirmada y no anónima, vinculada al slot de administrador                                                                                       |
+| Ingreso/cierre reales                 | Confirmados manualmente por el usuario; /admin respondió 200 y Supabase quedó sin sesiones tras cerrar. Sin compartir contraseña                                             |
+| Recuperación por correo / cambio real | No ejecutados; SMTP y entregabilidad pendientes                                                                                                                              |
+| Medio publicado real                  | No ejecutado: sin inventario, archivos ni clave privilegiada. Resolución y retirada probadas solo por SQL aislado                                                            |
+| Seguridad Supabase                    | Sin errores de esquema; una advertencia de contraseñas filtradas, función que requiere Pro. Se conserva Free                                                                 |
+| Dependencias                          | 0 altas/críticas; un aviso moderado previo de minimatch en tooling de lint                                                                                                   |
+| Rendimiento Supabase                  | 17 índices sin uso en base vacía; reevaluar con consultas reales                                                                                                             |
+| Secretos                              | .env.local ignorado; escaneo de archivos a versionar sin claves, tokens, conexión sensible, correo ni UUID de cuenta                                                         |
+| UI nueva en navegador                 | Sin revisión automatizada: Computer Use se detuvo por no poder determinar la URL activa de Chrome                                                                            |
 
-Se corrigieron una importación de fuente inexistente, la separación servidor/cliente de la navegación del panel y la advertencia de desplazamiento de Next. Se repitieron las pruebas afectadas.
+Las pruebas locales de RLS usan tablas mínimas de Auth/Storage y claims de prueba en un PostgreSQL aislado; no son un login real. La instancia se destruye al finalizar. No se crearon identidades temporales ni fixtures remotos.
 
-[Capturas guardadas](capturas/README.md). Los servidores de verificación se detienen al terminar; los comandos de [README.md](../README.md) permiten abrir una sesión propia.
+La primera prueba manual detectó un permiso de Auth que Supabase alojado no permite conceder a un rol propio. Se corrigió mediante un puente interno acotado, sin cambiar tablas/políticas de Auth; se verificó la función bajo el rol authenticated en el proyecto real y se amplió la regresión local. Ver documento 09.
 
-## Pendientes
+## Operación y pendientes
 
-- Revisar y acordar el diseño.
-- Auth de administrador único, recuperación, tablas/permisos/RLS, Storage y operaciones auditadas.
-- Persistencia y flujos editoriales, retención y backups.
-- Actualizar el conjunto de lint cuando sus plugins admitan versiones nuevas; revisar minimatch.
-- Antes de publicar: datos reales, costos, plan comercial, pruebas de seguridad y revisión normativa argentina oficial.
+[Guía de seguridad, alta inicial y recuperación](09-supabase-y-acceso.md). La configuración local ya apunta exclusivamente al proyecto dedicado. Sin credenciales, la UI pública funciona y el acceso administrativo falla de forma cerrada.
 
-Logo, WhatsApp, redes e inventario no bloquean esta revisión. No hay bloqueo para recorrer la vista local.
+Pendientes antes de operar con datos reales: recuperación por correo y cambio real de contraseña con cierre global, MFA si se acuerda, validación y reexportación de imágenes, publicación transaccional, concurrencia, retención y backups externos conjuntos de base e imágenes. El historial editorial no es un respaldo externo y los backups de base no incluyen los binarios de Storage. No hay purgas.
 
-## Siguiente paso
+El siguiente trabajo, sujeto a una nueva instrucción, será la gestión de vehículos y las operaciones editoriales auditadas. Esta etapa no implementa CRUD ni editor visual. No publicar ni desplegar.
 
-Detenerse para revisión del usuario. Base de datos, creación de recursos y seguridad/persistencia requieren una nueva instrucción. Documa no se modificó. Sin recursos Supabase/Vercel nuevos, contratación, dominios, despliegue ni fusión.
+## Git y antecedentes
+
+Rama: `docs/etapa-0-revision-inicial`. [PR borrador #1](https://github.com/RamiroSalinas1/concesionaria-web/pull/1), hacia main, sin fusionar. Commits previos: `e42db76` (documentación) y `9de3296` (base técnica/diseño). El SHA de esta etapa se informa en la entrega y en `git log -1`.
+
+Los documentos 00–08 conservan el contexto de etapas anteriores. Las decisiones implementadas y límites actuales están en este estado y en el documento 09. Las capturas existentes son de etapa 2; no se presentan como pruebas nuevas de Auth.

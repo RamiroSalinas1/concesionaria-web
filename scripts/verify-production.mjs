@@ -18,7 +18,7 @@ const server = spawn(
   ],
   {
     windowsHide: true,
-    env: { ...process.env, NEXT_TELEMETRY_DISABLED: "1" },
+    env: { ...process.env, SITE_URL: origin, NEXT_TELEMETRY_DISABLED: "1" },
     stdio: ["ignore", "pipe", "pipe"],
   },
 );
@@ -93,7 +93,6 @@ try {
     "/desarrollo/panel/contenido",
     "/desarrollo/panel/contacto",
     "/desarrollo/panel/historial",
-    "/admin",
     "/vehiculos/no-existe",
     "/vehiculos/coupe-de-ejemplo",
     "/ruta-inexistente",
@@ -108,6 +107,47 @@ try {
     );
     console.log("PASS 404: " + route);
   }
+  const admin = await fetch(origin + "/admin", { redirect: "manual" });
+  assert.equal(admin.status, 307);
+  assert.equal(
+    new URL(admin.headers.get("location"), origin).pathname,
+    "/admin/login",
+  );
+  assert.match(admin.headers.get("cache-control"), /no-store/);
+  const password = await fetch(origin + "/admin/clave", { redirect: "manual" });
+  assert.equal(password.status, 307);
+  const login = await fetch(origin + "/admin/login");
+  assert.equal(login.status, 200);
+  assert.match(await login.text(), /Iniciar sesión/);
+  assert.match(login.headers.get("cache-control"), /no-store/);
+  const api = await fetch(origin + "/api/admin/status");
+  assert([401, 503].includes(api.status));
+  assert.deepEqual(await api.json(), { authorized: false });
+  const spoofed = await fetch(origin + "/api/admin/status", {
+    headers: { Cookie: "sb-fake-auth-token=fake" },
+  });
+  assert([401, 503].includes(spoofed.status));
+  for (const route of [
+    "/api/media/draft.webp",
+    "/api/media/00000000-0000-4000-8000-000000000001?path=draft.webp",
+    "/admin/registro",
+    "/api/signup",
+  ]) {
+    const response = await fetch(origin + route);
+    assert.equal(response.status, 404, route);
+  }
+  const callback = await fetch(
+    origin + "/auth/callback?next=https://example.invalid",
+    { redirect: "manual" },
+  );
+  assert.equal(callback.status, 307);
+  assert.equal(
+    new URL(callback.headers.get("location"), origin).origin,
+    origin,
+  );
+  console.log(
+    "PASS protected routes/API, fake cookie denied, no-store, recovery callback cannot redirect externally, no signup or arbitrary-path media",
+  );
   const vehicle404 = await (
     await fetch(origin + "/vehiculos/no-existe")
   ).text();

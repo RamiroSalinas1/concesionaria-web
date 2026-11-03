@@ -1,6 +1,6 @@
 # Seguridad propuesta
 
-No se configuraron Auth, permisos, RLS ni Storage en esta etapa. Este diseño deberá probarse contra el proyecto propio antes de habilitar acceso real.
+Diseño de referencia de etapa 0. Auth, permisos, RLS y Storage se prepararon y probaron en etapa 3 sobre el proyecto dedicado; ver [implementación, pruebas y pendientes](09-supabase-y-acceso.md). Las propuestas de MFA y las operaciones editoriales siguen pendientes.
 
 ## Una cuenta administradora
 

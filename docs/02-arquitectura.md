@@ -1,6 +1,6 @@
 # Arquitectura propuesta
 
-Estado: propuesta, sin código ni recursos provisionados. Stack previsto: Next.js con App Router y TypeScript; Supabase Auth, Postgres y Storage; Vercel sujeto a plan apto para uso comercial.
+Arquitectura de referencia de etapa 0. La base de seguridad y separación de esquemas se implementó en etapa 3; ver [implementación y límites actuales](09-supabase-y-acceso.md). Las operaciones editoriales descritas siguen pendientes. Stack: Next.js con App Router y TypeScript; Supabase Auth, Postgres y Storage; Vercel sujeto a plan apto para uso comercial.
 
 ## Límites de acceso
 
